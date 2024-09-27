@@ -1,5 +1,5 @@
 import math
-from punto import Punto2D
+from.punto import Punto2D
 
 
 class Arista:
@@ -37,7 +37,8 @@ class AristaWrapper(Arista):
     _C2:float
     def  __init__(self,arista:Arista,Zp:float) -> None:
          super().__init__(arista.puntoInicial,arista.puntoFinal)
-         self._a= self._calcA(L=self._largo,F=self._F,Zp=Zp)
+
+         self._a= 0 if(self._F==0) else self._calcA(F=self._F,Zp=Zp,L=self._largo,)
          self._C1= self._calcC1(P1=self.puntoInicial,P2=self.puntoFinal,f=self.F)
          self._C2= self._calcC2(P1=self.puntoInicial,P2=self.puntoFinal,f=self.F)
     

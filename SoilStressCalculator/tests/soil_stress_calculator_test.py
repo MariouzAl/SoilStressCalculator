@@ -1,8 +1,7 @@
 import math
 import unittest
 
-from calculator import Boussinesq, FrolichX2, FrolichX4
-from punto import Punto2D, Punto3D
+from src.soil_vertical_stress_increment import Boussinesq, FrolichX2, FrolichX4,Punto2D,Punto3D
 
 
 class SoilStressCalculatorTestSuite(unittest.TestCase):

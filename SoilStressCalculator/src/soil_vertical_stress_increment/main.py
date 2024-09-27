@@ -1,5 +1,5 @@
-from punto import Punto2D, Punto3D
-from calculator import Boussinesq,FrolichX2,FrolichX4
+from .punto import Punto2D, Punto3D
+from .calculator import Boussinesq,FrolichX2,FrolichX4
 
 
 

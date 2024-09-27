@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from math import atan, pi, sqrt
 
-from arista import AristaWrapper
+from ..arista import AristaWrapper
 
 def BoussinesqReducer(valorSobrecarga:float)->Callable[[float,AristaWrapper],float]:
     def reducerFunction(acc:float,arista:AristaWrapper)->float:

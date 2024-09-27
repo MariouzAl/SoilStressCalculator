@@ -1,8 +1,8 @@
 from collections.abc import Callable
-from SoilStressCalculator.arista import AristaWrapper
-from poligono import Poligono
-from punto import Punto2D, Punto3D,CalculadoraPuntoPrimo
-from reducers import BoussinesqReducer ,FrolichX2Reducer,FrolichX4Reducer
+from .arista import AristaWrapper
+from .poligono import Poligono
+from .punto import Punto2D, Punto3D,CalculadoraPuntoPrimo
+from .reducers import BoussinesqReducer ,FrolichX2Reducer,FrolichX4Reducer
 
 from functools import reduce
 

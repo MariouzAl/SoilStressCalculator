@@ -1,5 +1,5 @@
-from arista import Arista, AristaWrapper
-from punto import Punto2D
+from .arista import Arista, AristaWrapper
+from .punto import Punto2D
 
 
 class Poligono:

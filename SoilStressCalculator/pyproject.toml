@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "soil_vertical_stress_increment"
+version = "0.0.1"
+authors = [
+  { name="Mario Rivera", email="ace.mrivera@gmail.com" },
+  { name="Carmelino Zea Constantino", email="zeaconcar@hotmail.com" },
+]
+description = "Soil Vertical Stress Increment Calulator with following methdos : χ=3 Boussinesq, χ=2 Frolich, χ=4 Frolich, χ=1.5 WESTERGAARD(WIP)"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = 'https://github.com/MariouzAl/SoilStressCalculator'
+

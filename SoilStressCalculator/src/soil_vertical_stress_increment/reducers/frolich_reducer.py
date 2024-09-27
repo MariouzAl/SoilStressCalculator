@@ -1,7 +1,7 @@
 from math import pi,atan,sqrt
 from collections.abc import Callable
 
-from arista import AristaWrapper
+from ..arista import AristaWrapper
 
 def caclJi(a:float,c:float):
         return c/(sqrt((1)+(a**2)))

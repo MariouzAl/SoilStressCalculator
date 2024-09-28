@@ -1,4 +1,4 @@
-from utils.get_QDoubleSpinBox import getInputWithLabel
+from .get_InputWithLabel import getInputWithLabel
 
 
 from PyQt6.QtWidgets import QGridLayout, QLabel

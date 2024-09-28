@@ -1,38 +1,21 @@
 from dataclasses import dataclass
 from models.methods_enum import MetodosCalculo
+from components.relacion_poisson_component import RelacionPoissonComponent
 from components.rigidez_view import RigidezView
 from components.secciones_analisis_view import SeccionesAnalisisView
-from utils.get_QDoubleSpinBox import InputWithLabel, getInputWithLabel
+from components.get_InputWithLabel import InputWithLabel, getInputWithLabel
+
 from soil_vertical_stress_increment import Punto3D
-
 from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QGroupBox, QLabel, QVBoxLayout,QLineEdit
+from PyQt6.QtWidgets import QGroupBox, QLabel, QVBoxLayout
 
 
-
-class RelacionPoissonComponent(QVBoxLayout):
-    def __init__(self):
-        super().__init__();
-        
-        self.label = QLabel('Relacion de poisson:')
-        self.inputLine = QLineEdit()
-        self.addWidget(self.label)
-        self.addWidget(self.inputLine)
-    
-    def hide(self):
-        self.label.hide()
-        self.inputLine.hide()
-    def show(self):
-        self.label.show()
-        self.inputLine.show()
-        
-    def getValue(self)->float:
-        try:
-            return float(self.inputLine.text) 
-        except:
-            return 0
-        
-            
+@dataclass
+class Punto3DFormWidgetData:
+    q:float
+    punto:Punto3D
+    relacionPoisson:float
+    rigidez:tuple
 
 
 class Punto3DFormWidget(QGroupBox):
@@ -86,12 +69,5 @@ class Punto3DFormWidget(QGroupBox):
             self.poisonComponent.hide()
             
             
-
-@dataclass
-class Punto3DFormWidgetData:
-    q:float
-    punto:Punto3D
-    relacionPoisson:float
-    rigidez:tuple
     
     

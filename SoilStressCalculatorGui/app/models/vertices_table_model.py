@@ -61,3 +61,6 @@ class VerticesTableModel(QAbstractTableModel):
             self.dataChanged.emit(indice, indice)
             return True
         return False
+    
+    def get_values(self)->list[Punto2D]:
+        return self._data

@@ -18,9 +18,10 @@ class VerticesView(QGroupBox):
         eliminar_button.clicked.connect(self.delete_selected_row)
         layout.addWidget(eliminar_button,2,0)
         agregar_button = QPushButton(text="Añadir")
+        agregar_button.clicked.connect(self.add_row)
         layout.addWidget(agregar_button,2,1)
         calcular_button = QPushButton(text="Calcular")
-        agregar_button.clicked.connect(self.add_row)
+        calcular_button.clicked.connect(self.calcular_button_click_handler)
         layout.addWidget(calcular_button,3,0,1,2)
         self.setLayout(layout)
 
@@ -46,4 +47,6 @@ class VerticesView(QGroupBox):
     def calcular_button_click_handler(self):
         print('Calcular Clicked')
         self.on_calcular_clicked.emit('Calcular Clicked')
-        
+     
+    def get_values(self)-> list[Punto2D]:
+        return self.model.get_values()      

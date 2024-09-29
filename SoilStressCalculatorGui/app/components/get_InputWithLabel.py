@@ -40,8 +40,10 @@ class InputWithLabel(QWidget):
             return line_edit
         
         def text_changed_slot(self,val):
-                print('text_changed_slot',val,self._value)
-                self.set_value(float(val))
+                try:
+                        self._value= float(val);
+                except:
+                        self._value= 0.0;
         
         def reset_values(self):
                 self.set_value(0.0)

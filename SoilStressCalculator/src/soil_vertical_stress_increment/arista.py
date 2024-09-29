@@ -46,10 +46,16 @@ class AristaWrapper(Arista):
         return abs((Zp *L)/F)
     
     def _calcC1(self,P1:Punto2D,P2:Punto2D,f:float)->float:
-        return (((P1.x)*(P2.x-P1.x))+((P1.y)*(P2.y-P1.y)))/f
+        try:
+            return (((P1.x)*(P2.x-P1.x))+((P1.y)*(P2.y-P1.y)))/f
+        except:
+            return 0
      
     def _calcC2(self,P1:Punto2D,P2:Punto2D,f:float)->float:
-        return (((P2.x)*(P2.x-P1.x))+((P2.y)*(P2.y-P1.y)))/f
+        try:
+            return (((P2.x)*(P2.x-P1.x))+((P2.y)*(P2.y-P1.y)))/f
+        except:
+            return 0
     
     @property
     def a(self)->float:

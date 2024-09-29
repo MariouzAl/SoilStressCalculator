@@ -10,7 +10,8 @@ class PanelResultados(QGroupBox):
         super().__init__("Panel Resultados")
         """ self.setStyleSheet(f"background-color:#256a2f21") """
         layout= QHBoxLayout()
-        layout.addLayout(ResultadosForm(),1)
+        self.result_form = ResultadosForm()
+        layout.addLayout(self.result_form,1)
 
         self.tableWidget = QTableWidget()
         self.tableWidget.setRowCount(4)
@@ -21,3 +22,7 @@ class PanelResultados(QGroupBox):
         layout.addWidget(self.tableWidget,4)
 
         self.setLayout(layout)
+    
+    def add_results(self, result):
+        self.result_form.add_result(result)
+    

@@ -18,17 +18,17 @@ class SoilStressCalculatorTestSuite(unittest.TestCase):
     def test_Boussinesq_Calc(self):
         bstrategy= Boussinesq(self.valorSobrecarga,self.P,self.verticesCuadrado)
         result=bstrategy.calculate()
-        self.assertNearlyEqual(a=result, b=0.12543662090840 )
+        self.assertNearlyEqual(a=result.get_total_result(), b=0.12543662090840 )
     
     def test_FrolichX2_Calc(self):
         bstrategy= FrolichX2(self.valorSobrecarga,self.P,self.verticesCuadrado)
         result=bstrategy.calculate()
-        self.assertNearlyEqual(a=result, b=0.0908822694186605 )
+        self.assertNearlyEqual(a=result.get_total_result(), b=0.0908822694186605 )
     
     def test_FrolichX4_Calc(self):
         bstrategy= FrolichX4(self.valorSobrecarga,self.P,self.verticesCuadrado)
         result=bstrategy.calculate()
-        self.assertNearlyEqual(a=result, b=0.153957455838053 )
+        self.assertNearlyEqual(a=result.get_total_result(), b=0.153957455838053 )
 
     def assertNearlyEqual(self,a,b,fraction=0.00000000000001,msg=None):
         if not math.isclose(a,b,rel_tol=fraction):

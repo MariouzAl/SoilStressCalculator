@@ -12,13 +12,14 @@ from PyQt6.QtWidgets import QApplication, QMainWindow,QWidget,QGridLayout
 
 # Subclass QMainWindow to customize your application's main window
 class MainWindow(QMainWindow):
+    controller = CalculateController()
     def __init__(self):
         super().__init__()
         self.setWindowTitle("DISTRIBUCION DE ESFUERZO VERTICAL DENTRO DE LA MASA DE SUELO POR EFECTO DE UNA CARGA UNIFORMEMENTE DI".capitalize())
         layout = QGridLayout()
         self.side_panel = SidePanel()
         self.side_panel.on_calculate.connect(self.calculate)
-        layout.addWidget(self.side_panel,0,0,12,3)
+        layout.addWidget(self.side_panel,0,0,12,2)
         layout.addWidget(ChartsPanel(),0,3,8,9)
         self.panel_resultados = PanelResultados()
         layout.addWidget(self.panel_resultados,8,3,4,9)
@@ -28,9 +29,9 @@ class MainWindow(QMainWindow):
         # to take up all the space in the window by default.
         self.setCentralWidget(widget)
 
+    
     def calculate(self,data:CalculateParams):
-        controller = CalculateController()
-        result = controller.calculate(data)
+        result = self.controller.calculate(data)
         self.panel_resultados.add_results(result)
         
 

@@ -8,7 +8,7 @@ class ResultadosForm(QVBoxLayout):
         items=["[0 0 5]"]
         coordenadasCb.addItems(items)
         self.incremento_esfuerzo_input= QLineEdit()
-        self.incremento_esfuerzo_input.setReadOnly=True
+        self.incremento_esfuerzo_input.setReadOnly(True)
 
         self.addWidget(QLabel('Coordenadas'))
         self.addWidget(coordenadasCb)

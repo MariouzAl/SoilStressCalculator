@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from functools import reduce
 
+from soil_vertical_stress_increment.punto import Punto2D, Punto3D
+
 from .methods_enum import MetodosCalculo
 
 from ..arista import AristaWrapper
@@ -30,16 +32,33 @@ class FrolichX4IterationResult(FrolichX2IterationResult):
     
 IterationUnionResults = BoussinesqIterationResult|FrolichX2IterationResult|FrolichX4IterationResult
 
+@dataclass
+class Punto3DFormWidgetData:
+    q:float
+    punto:Punto3D
+    relacionPoisson:float
+    rigidez:tuple
+
+@dataclass
+class CalculateParams:
+    punto_3d_data:Punto3DFormWidgetData;
+    vertices_data:list[Punto2D];
 
 class VerticalStressIncrementResults:
+    input_data:CalculateParams
+    P:Punto3D
+    q:float
     method:MetodosCalculo
     _results : list[IterationUnionResults]=[]
     __total_dzs:float=0.0
     
-    def __init__(self,metodo_calculo):
+    def __init__(self,metodo_calculo,P,q,vertices):
+        self.vertices=vertices
         self._results : list[IterationUnionResults]=[]
         self.__total_dzs:float=0.0
         self.method=metodo_calculo;
+        self.P=P
+        self.q=q
     
     def push_result(self, result:IterationUnionResults )->None:
         self._results.append(result)

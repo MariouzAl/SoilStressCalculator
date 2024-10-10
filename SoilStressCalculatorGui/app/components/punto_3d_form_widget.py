@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+import copy
+from dataclasses import dataclass, asdict
 from models.methods_enum import MetodosCalculo
 from components.relacion_poisson_component import RelacionPoissonComponent
 from components.rigidez_view import RigidezView
@@ -16,6 +17,15 @@ class Punto3DFormWidgetData:
     punto:Punto3D
     relacionPoisson:float
     rigidez:tuple
+    
+    def __deepcopy__(self,memo):
+        datos=asdict(self)
+        return Punto3DFormWidgetData(
+            q=datos['q'],
+            punto=copy.deepcopy(datos['punto'], memo),
+            relacionPoisson=datos['relacionPoisson'],
+            rigidez=tuple(copy.deepcopy(list(datos['rigidez']),memo))
+            )
 
 
 class Punto3DFormWidget(QGroupBox):
@@ -25,7 +35,7 @@ class Punto3DFormWidget(QGroupBox):
         super().__init__("Parametros iniciales")
         layout = QVBoxLayout()
         layout.addWidget(QLabel("Valor de sobrecarga:"))
-        self.q=getInputWithLabel(title='q',unit='T/m2')
+        self.q=getInputWithLabel(title='q',unit='t/m2')
         layout.addWidget(self.q)
         title_label=QLabel("Posicion del punto P:")
         layout.addWidget(title_label)
@@ -48,7 +58,7 @@ class Punto3DFormWidget(QGroupBox):
         layout.addLayout(self.poisonComponent)
         layout.addLayout(self.rigidez)
     
-    def getValues(self):
+    def getValues(self)->Punto3DFormWidgetData:
         x= self.xp.get_value()
         y= self.yp.get_value()
         z= self.zp.get_value()

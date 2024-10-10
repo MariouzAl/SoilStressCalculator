@@ -4,6 +4,10 @@ class Punto2D:
     def __init__(self, x: float,y: float) -> None:
         self.x=x
         self.y = y
+    
+    def __deepcopy__(self,memo):
+        return Punto2D(self.x,
+                       self.y)
         
 
 class Punto3D(Punto2D):
@@ -12,6 +16,11 @@ class Punto3D(Punto2D):
     def __init__(self, x: float, y: float,z:float) -> None:
         super().__init__(x, y)
         self.z = z
+    
+    def __deepcopy__(self,memo):
+        return Punto3D(self.x,
+                       self.y,
+                       self.z)
     
     
 class CalculadoraPuntoPrimo:    

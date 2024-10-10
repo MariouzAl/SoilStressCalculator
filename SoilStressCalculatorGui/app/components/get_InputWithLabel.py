@@ -23,6 +23,7 @@ class InputWithLabel(QWidget):
         def _createWidget(self,title:str,unit:str='m')->QWidget:
                 layout= QHBoxLayout()
                 text_label = QLabel(f"{title}= ")
+                text_label.setStyleSheet(' font: italic;')
                 unit_label = QLabel(f"{unit}")
                 self.input= self._create_input()
                 layout.addWidget(text_label)

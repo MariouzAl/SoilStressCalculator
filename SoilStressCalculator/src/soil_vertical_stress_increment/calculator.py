@@ -23,7 +23,7 @@ class SoilStressCalculator:
 
     def calculate(self) -> VerticalStressIncrementResults:
         aristas =self.poligono.aristas
-        initial_value=VerticalStressIncrementResults(metodo_calculo=self.metodoCalculo);
+        initial_value=VerticalStressIncrementResults(metodo_calculo=self.metodoCalculo,P=self.P,q=self.q,vertices=self.vertices);
         result:VerticalStressIncrementResults=reduce(self.strategy,aristas,initial_value)
         result.calc_total_result()
         return result

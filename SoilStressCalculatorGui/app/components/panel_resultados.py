@@ -103,11 +103,10 @@ COLUMN_MAPPERS = {
 class PanelResultados(QGroupBox):
     def __init__(self):
         super().__init__("Panel Resultados")
-        """ self.setStyleSheet(f"background-color:#256a2f21") """
         layout= QHBoxLayout()
         self.result_form = ResultadosForm()
         layout.addLayout(self.result_form,1)
-
+        self.result_form.on_cb_selected.connect(self.on_resultado_selected_change_slot)
         self.tableWidget = QTableWidget()
         self.tableWidget.setRowCount(4)
         columnas = ['xi', 'yi','xf',"yf",'Li','Fi','ai', 'C1i','C2i','θ1i','θ2i', 'B1i','B2i','σzi']
@@ -119,11 +118,7 @@ class PanelResultados(QGroupBox):
         self.setLayout(layout)
     
     def add_results(self, result:VerticalStressIncrementResults):
-        self._config_table_data(result)
-        """ doic= iterations[0].__dict__;
-        claves = [clave for clave in doic]
-        print(claves)  """
-        self.result_form.add_result(result.get_total_result())
+        self.result_form.add_result(result)
 
     
     def _config_table_data(self,result:VerticalStressIncrementResults):
@@ -132,10 +127,12 @@ class PanelResultados(QGroupBox):
         self.tableWidget.setHorizontalHeaderLabels(columnas)
         iterations:list[IterationUnionResults] = result.get_iteration_results()
         datos = self._get_data_matrix(result.method,iterations);
+        self.tableWidget.clearContents()
         self.add_data_to_table(datos)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
 
     def add_data_to_table(self, datos):
+        self.tableWidget.setRowCount(len(datos))
         for fila, registro in enumerate(datos):
             for columna, valor in enumerate(registro):
                 self.tableWidget.setItem(fila, columna, QTableWidgetItem(str(valor)))
@@ -144,3 +141,6 @@ class PanelResultados(QGroupBox):
         values=map(COLUMN_MAPPERS[methodo],iterations)
         return list(values)
         
+    def on_resultado_selected_change_slot(self,value):
+        print ("on_resultado_selected_change_slot,", value)
+        self._config_table_data(value[1])

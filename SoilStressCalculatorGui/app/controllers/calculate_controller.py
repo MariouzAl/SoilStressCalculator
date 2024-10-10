@@ -1,4 +1,4 @@
-from soil_vertical_stress_increment import SoilStressCalculator,Boussinesq,FrolichX2,FrolichX4
+from soil_vertical_stress_increment import SoilStressCalculator,Boussinesq,FrolichX2,FrolichX4,Westergaard
 from soil_vertical_stress_increment.models.vertical_stress_increment_result import VerticalStressIncrementResults
 from models.methods_enum import MetodosCalculo
 from components.side_panel import CalculateParams
@@ -18,7 +18,8 @@ class CalculateController:
             return FrolichX2(q=params.punto_3d_data.q,P=params.punto_3d_data.punto,vertices=params.vertices_data)
         elif(params.punto_3d_data.rigidez==MetodosCalculo.FROLICH_X4.value):
             return FrolichX4(q=params.punto_3d_data.q,P=params.punto_3d_data.punto,vertices=params.vertices_data)
+        elif(params.punto_3d_data.rigidez==MetodosCalculo.WESTERGAARD.value):
+            return Westergaard(q=params.punto_3d_data.q,P=params.punto_3d_data.punto,vertices=params.vertices_data, relacion_poisson=params.punto_3d_data.relacionPoisson)
         else:
             print('No implementation for Westergaard')
-            return Boussinesq(q=params.punto_3d_data.q,P=params.punto_3d_data.punto,vertices=params.vertices_data)
             

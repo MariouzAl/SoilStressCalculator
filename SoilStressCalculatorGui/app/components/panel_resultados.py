@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QGroupBox, QHBoxLayout, QTableWidget, QTableWidgetItem, QHeaderView
-from soil_vertical_stress_increment.models.vertical_stress_increment_result import BoussinesqIterationResult, FrolichX2IterationResult, FrolichX4IterationResult, IterationUnionResults, VerticalStressIncrementResults
+from soil_vertical_stress_increment.models.vertical_stress_increment_result import BoussinesqIterationResult, FrolichX2IterationResult, FrolichX4IterationResult, IterationUnionResults, VerticalStressIncrementResults, WestergaardIterationResult
 
 from soil_vertical_stress_increment.models.methods_enum import MetodosCalculo
 from utils.get_columns import get_columns
@@ -92,11 +92,42 @@ def FrolichX4ColumnsMapper(val:FrolichX4IterationResult)->list[list[float]]:
             N1,
             N2,
             Dszi]; 
+
+def WestergaardColumnsMapper(val:WestergaardIterationResult)->list[list[float]]:
+       Xi=  val.arista.puntoInicial.x
+       Yi=  val.arista.puntoInicial.y
+       Xf=  val.arista.puntoFinal.x
+       Yf=  val.arista.puntoFinal.y
+       Li= val.arista.largo
+       Fi= val.arista.F
+       ai= val.arista.a
+       C1i= val.arista.C1
+       C2i= val.arista.C2
+       q1i= val.q1i
+       q12= val.q2i
+       W1i= val.W1i
+       W2i= val.W2i
+       Dszi= val.Dszi
+       return [Xi,
+               Yi,
+               Xf,
+               Yf,
+               Li,
+               Fi,
+               ai,
+               C1i,
+               C2i,
+               q1i,
+               q12,
+               W1i,
+               W2i,
+               Dszi,]
     
 COLUMN_MAPPERS = {
     MetodosCalculo.BOUSSINESQ_X3: BousinessqColumnsMapper,
     MetodosCalculo.FROLICH_X2: FrolichX2ColumnsMapper,
-    MetodosCalculo.FROLICH_X4: FrolichX4ColumnsMapper
+    MetodosCalculo.FROLICH_X4: FrolichX4ColumnsMapper,
+    MetodosCalculo.WESTERGAARD: WestergaardColumnsMapper
     } 
 
 

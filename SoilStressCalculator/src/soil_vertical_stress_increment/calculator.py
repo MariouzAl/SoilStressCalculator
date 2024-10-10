@@ -5,7 +5,7 @@ from .models.vertical_stress_increment_result import VerticalStressIncrementResu
 from .arista import AristaWrapper
 from .poligono import Poligono
 from .punto import Punto2D, Punto3D,CalculadoraPuntoPrimo
-from .reducers import BoussinesqReducer ,FrolichX2Reducer,FrolichX4Reducer
+from .reducers import BoussinesqReducer ,FrolichX2Reducer,FrolichX4Reducer,WestergaardReducer
 
 from functools import reduce
 
@@ -50,3 +50,9 @@ class FrolichX4(SoilStressCalculator):
     def __init__(self,q:float, P : Punto3D, vertices :list[Punto2D]  ) -> None:
         super().__init__(q,P,vertices,FrolichX4Reducer(q))
 
+class Westergaard(SoilStressCalculator):
+    NAME='WESTERGAARD (X=1.5)';
+    metodoCalculo:MetodosCalculo = MetodosCalculo.WESTERGAARD
+    
+    def __init__(self,q:float, P : Punto3D, vertices :list[Punto2D] ,relacion_poisson:float ) -> None:
+        super().__init__(q,P,vertices,WestergaardReducer(q,relacion_poisson=relacion_poisson))

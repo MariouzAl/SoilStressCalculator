@@ -19,6 +19,13 @@ class BoussinesqIterationResult(IterationResult):
     q2i:float
     B1i:float
     B2i:float
+
+@dataclass
+class WestergaardIterationResult(IterationResult): 
+    q1i:float
+    q2i:float
+    W1i:float
+    W2i:float
     
 @dataclass
 class FrolichX2IterationResult(IterationResult):
@@ -30,7 +37,7 @@ class FrolichX4IterationResult(FrolichX2IterationResult):
     N1i:float
     N2i:float
     
-IterationUnionResults = BoussinesqIterationResult|FrolichX2IterationResult|FrolichX4IterationResult
+IterationUnionResults = BoussinesqIterationResult|FrolichX2IterationResult|FrolichX4IterationResult|WestergaardIterationResult 
 
 @dataclass
 class Punto3DFormWidgetData:

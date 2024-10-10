@@ -2,16 +2,15 @@ from PyQt6.QtWidgets import QGroupBox, QPushButton, QVBoxLayout,QHBoxLayout
 import numpy as np
 
 from .superficie_punto_chart import SuperficiePuntoChart
-from .esfuerzos_chart import EsfuerzosChart
+from .esfuerzos_chart import  EsfuerzosChartContainer
 
 
 class ChartsPanel(QGroupBox):
-    esfuerzos_chart: EsfuerzosChart
+    esfuerzos_chart: EsfuerzosChartContainer
     def __init__(self):
         super().__init__()
-        self.setStyleSheet(f"background-color:#226a5a21")
         layout= QHBoxLayout()
-        self.esfuerzos_chart = EsfuerzosChart()
+        self.esfuerzos_chart = EsfuerzosChartContainer()
         layout.addWidget(self.esfuerzos_chart,1)
         self.superficie_punto_chart=SuperficiePuntoChart()
         layout.addWidget(self.superficie_punto_chart,1)

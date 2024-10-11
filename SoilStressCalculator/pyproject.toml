@@ -9,7 +9,7 @@ authors = [
   { name="Mario Rivera", email="ace.mrivera@gmail.com" },
   { name="Carmelino Zea Constantino", email="zeaconcar@hotmail.com" },
 ]
-description = "Soil Vertical Stress Increment Calulator with following methdos : χ=3 Boussinesq, χ=2 Frolich, χ=4 Frolich, χ=1.5 WESTERGAARD(WIP)"
+description = "Soil Vertical Stress Increment Calulator with following methdos : χ=3 Boussinesq, χ=2 Frolich, χ=4 Frolich, χ=1.5 WESTERGAARD"
 readme = "README.md"
 requires-python = ">=3.12"
 classifiers = [

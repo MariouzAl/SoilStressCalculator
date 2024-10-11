@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QGroupBox, QHBoxLayout, QTableWidget, QTableWidgetItem, QHeaderView
+from PyQt6.QtWidgets import QGroupBox, QHBoxLayout, QTableWidget, QTableWidgetItem, QHeaderView,QTabBar,QVBoxLayout
 from soil_vertical_stress_increment.models.vertical_stress_increment_result import BoussinesqIterationResult, FrolichX2IterationResult, FrolichX4IterationResult, IterationUnionResults, VerticalStressIncrementResults, WestergaardIterationResult
 
 from soil_vertical_stress_increment.models.methods_enum import MetodosCalculo
@@ -134,7 +134,12 @@ COLUMN_MAPPERS = {
 class PanelResultados(QGroupBox):
     def __init__(self):
         super().__init__("Panel Resultados")
+        outer_layout= QVBoxLayout()
         layout= QHBoxLayout()
+        
+        self.tab_bar = self.drawTabBar()
+        outer_layout.addWidget(self.tab_bar,1)
+        
         self.result_form = ResultadosForm()
         layout.addLayout(self.result_form,1)
         self.result_form.on_cb_selected.connect(self.on_resultado_selected_change_slot)
@@ -145,11 +150,19 @@ class PanelResultados(QGroupBox):
         self.tableWidget.setHorizontalHeaderLabels(columnas)
         self.tableWidget.setObjectName("tableWidget")
         layout.addWidget(self.tableWidget,4)
+        
+        outer_layout.addLayout(layout)
+        self.setLayout(outer_layout)
 
-        self.setLayout(layout)
+    def drawTabBar(self):
+        tab_bar = QTabBar()
+        tab_bar.setTabsClosable(True)
+        
+        return tab_bar
     
     def add_results(self, result:VerticalStressIncrementResults):
         self.result_form.add_result(result)
+        self.tab_bar.addTab(f"P=[{result.P.x},{result.P.y}, {result.P.z}] q={result.q} {result.method.value[0]}")
 
     
     def _config_table_data(self,result:VerticalStressIncrementResults):
@@ -174,4 +187,5 @@ class PanelResultados(QGroupBox):
         
     def on_resultado_selected_change_slot(self,value):
         print ("on_resultado_selected_change_slot,", value)
+        
         self._config_table_data(value[1])

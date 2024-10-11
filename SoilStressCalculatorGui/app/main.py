@@ -1,7 +1,7 @@
 import sys
 
 from soil_vertical_stress_increment.models.vertical_stress_increment_result import VerticalStressIncrementResults
-from controllers import CalculateController,ChartController
+from controllers import CalculateController
 from components.panel_resultados import PanelResultados
 from components.charts_panel import ChartsPanel
 from components.side_panel  import CalculateParams, SidePanel
@@ -15,7 +15,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow,QWidget,QGridLayout
 # Subclass QMainWindow to customize your application's main window
 class MainWindow(QMainWindow):
     controller = CalculateController()
-    chart_controller =ChartController()
+    
     def __init__(self):
         super().__init__()
         self.setWindowTitle("DISTRIBUCION DE ESFUERZO VERTICAL DENTRO DE LA MASA DE SUELO POR EFECTO DE UNA CARGA UNIFORMEMENTE DI".capitalize())
@@ -41,13 +41,12 @@ class MainWindow(QMainWindow):
      
     def on_result_changed(self,data:tuple[int,VerticalStressIncrementResults]):
         result=data[1]
-        chart_data=self.chart_controller.calc_chart_data(result.input_data,10)
-        print (chart_data)
-        self.chart_panel.set_data(chart_data)
+        self.chart_panel.set_data(result)
+        
         
 
 app = QApplication(sys.argv)
-app.setStyle("Breeze")
+app.setStyle("fusion")
 
 window = MainWindow()
 window.showMaximized()

@@ -2,13 +2,14 @@ from soil_vertical_stress_increment import SoilStressCalculator,Boussinesq,Froli
 from soil_vertical_stress_increment.models.vertical_stress_increment_result import VerticalStressIncrementResults
 from models.methods_enum import MetodosCalculo
 from components.side_panel import CalculateParams
-
+import copy
 class CalculateController:
 
     def calculate(self,params:CalculateParams)->VerticalStressIncrementResults:
-        metodo_calculo:SoilStressCalculator= self.__get_calc_method(params)
+        inputData = params
+        metodo_calculo:SoilStressCalculator= self.__get_calc_method(inputData)
         result = metodo_calculo.calculate()
-        result.input_data=params;
+        result.input_data=inputData;
         return result
 
     def __get_calc_method(self, params:CalculateParams):

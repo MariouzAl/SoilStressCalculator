@@ -12,14 +12,9 @@ class ChartController :
         self.data=data
         inicio = 0; 
         fin =data.punto_3d_data.punto.z;
-        interval= self.generar_intervalos(steps, fin)
-        rango=np.arange(inicio,fin+interval,interval)
+        rango=np.linspace(inicio,fin,steps)
         values = list(map(self.__calculate_increment_for_range,rango))
         return values
-
-    def generar_intervalos(self, steps, fin)->float:
-        return fin/steps
-        
         
         
     def __calculate_increment_for_range(self,value:float)->tuple[float,float]:

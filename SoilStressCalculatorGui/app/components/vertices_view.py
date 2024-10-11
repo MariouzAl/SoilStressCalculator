@@ -1,6 +1,5 @@
-import random
-from typing import Any
-from PyQt6.QtWidgets import QGridLayout, QGroupBox, QPushButton, QTableWidget,QTableView
+import copy
+from PyQt6.QtWidgets import QGridLayout, QGroupBox, QPushButton, QTableView
 from PyQt6.QtCore import pyqtSignal
 from soil_vertical_stress_increment.punto import Punto2D
 
@@ -49,4 +48,4 @@ class VerticesView(QGroupBox):
         self.on_calcular_clicked.emit('Calcular Clicked')
      
     def get_values(self)-> list[Punto2D]:
-        return self.model.get_values()      
+        return copy.deepcopy(self.model.get_values())      

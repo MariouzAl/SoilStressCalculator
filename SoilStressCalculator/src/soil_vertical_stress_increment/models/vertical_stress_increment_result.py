@@ -58,6 +58,7 @@ class VerticalStressIncrementResults:
     method:MetodosCalculo
     _results : list[IterationUnionResults]=[]
     __total_dzs:float=0.0
+    vertices:list[Punto2D]=[]
     
     def __init__(self,metodo_calculo,P,q,vertices):
         self.vertices=vertices

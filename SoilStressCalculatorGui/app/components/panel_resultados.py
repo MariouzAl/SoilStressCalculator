@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QGroupBox, QHBoxLayout, QTableWidget, QTableWidgetIt
 from soil_vertical_stress_increment.models.vertical_stress_increment_result import BoussinesqIterationResult, FrolichX2IterationResult, FrolichX4IterationResult, IterationUnionResults, VerticalStressIncrementResults, WestergaardIterationResult
 
 from soil_vertical_stress_increment.models.methods_enum import MetodosCalculo
+from components.results_tabbar import ResultsTabBar
 from utils.get_columns import get_columns
 
 from .resultados_form import ResultadosForm
@@ -138,11 +139,11 @@ class PanelResultados(QGroupBox):
         layout= QHBoxLayout()
         
         self.tab_bar = self.drawTabBar()
+        self.tab_bar.currentTabChanged.connect(self.on_resultado_selected_change_slot)
         outer_layout.addWidget(self.tab_bar,1)
         
         self.result_form = ResultadosForm()
         layout.addLayout(self.result_form,1)
-        self.result_form.on_cb_selected.connect(self.on_resultado_selected_change_slot)
         self.tableWidget = QTableWidget()
         self.tableWidget.setRowCount(4)
         columnas = ['xi', 'yi','xf',"yf",'Li','Fi','ai', 'C1i','C2i','θ1i','θ2i', 'B1i','B2i','σzi']
@@ -155,14 +156,12 @@ class PanelResultados(QGroupBox):
         self.setLayout(outer_layout)
 
     def drawTabBar(self):
-        tab_bar = QTabBar()
-        tab_bar.setTabsClosable(True)
-        
+        tab_bar = ResultsTabBar()        
         return tab_bar
     
     def add_results(self, result:VerticalStressIncrementResults):
-        self.result_form.add_result(result)
-        self.tab_bar.addTab(f"P=[{result.P.x},{result.P.y}, {result.P.z}] q={result.q} {result.method.value[0]}")
+        self.tab_bar.addTab(result)
+        self.tab_bar.setCurrentIndex(len(self.tab_bar.data)-1)
 
     
     def _config_table_data(self,result:VerticalStressIncrementResults):
@@ -185,7 +184,8 @@ class PanelResultados(QGroupBox):
         values=map(COLUMN_MAPPERS[methodo],iterations)
         return list(values)
         
-    def on_resultado_selected_change_slot(self,value):
+    def on_resultado_selected_change_slot(self,value:tuple[int,VerticalStressIncrementResults]):
         print ("on_resultado_selected_change_slot,", value)
-        
-        self._config_table_data(value[1])
+        current_data = value[1]
+        self._config_table_data(current_data)
+        self.result_form.incremento_esfuerzo_input.setText(str(current_data.get_total_result()))

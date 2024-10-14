@@ -1,8 +1,8 @@
 from soil_vertical_stress_increment import SoilStressCalculator,Boussinesq,FrolichX2,FrolichX4,Westergaard
 from soil_vertical_stress_increment.models.vertical_stress_increment_result import VerticalStressIncrementResults
 from models.methods_enum import MetodosCalculo
-from components.side_panel import CalculateParams
-import copy
+from components.CalculateParams import CalculateParams
+
 class CalculateController:
 
     def calculate(self,params:CalculateParams)->VerticalStressIncrementResults:

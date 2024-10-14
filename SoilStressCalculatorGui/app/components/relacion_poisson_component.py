@@ -29,3 +29,6 @@ class RelacionPoissonComponent(QVBoxLayout):
             return float(self.inputLine.text())
         except:
             return 0
+    
+    def setValue(self,value:float)->None:
+        self.inputLine.setText(str(value))

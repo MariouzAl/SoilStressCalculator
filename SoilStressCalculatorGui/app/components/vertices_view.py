@@ -1,5 +1,5 @@
 import copy
-from PyQt6.QtWidgets import QGridLayout, QGroupBox, QPushButton, QTableView
+from PyQt6.QtWidgets import QGridLayout, QGroupBox, QPushButton, QTableView,QHeaderView
 from PyQt6.QtCore import pyqtSignal
 from soil_vertical_stress_increment.punto import Punto2D
 
@@ -31,6 +31,7 @@ class VerticesView(QGroupBox):
         table.setObjectName("tableWidget");
         delegate = MascaradeEdicion()
         table.setItemDelegate(delegate)
+        table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         return table;
 
     def add_row(self):
@@ -49,3 +50,7 @@ class VerticesView(QGroupBox):
      
     def get_values(self)-> list[Punto2D]:
         return copy.deepcopy(self.model.get_values())      
+    
+    def set_values(self,values:list[Punto2D])->None:
+        self.model=VerticesTableModel(values)
+        self.tableWidget.setModel(self.model)

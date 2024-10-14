@@ -1,3 +1,5 @@
+"""Module providing a series of variables for styling"""
+
 COLOR_BARRA_SUPERIOR = "#1f2329"
 COLOR_MENU_LATERAL = "#2a3138"
 COLOR_CUERPO_PRINCIPAL = "#f1faff"

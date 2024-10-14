@@ -25,7 +25,16 @@ class SuperficiePuntoChart(GLViewWidget):
         verts =self.__get_vertex_list(vertices,depth);
         faces = list(map(self.__map_vertexez_to_indexes(verts),ear_clipping.triangulación_ear_clipping(verts)));
         verts= np.array(verts)
-        m1 = GLMeshItem(vertexes=verts, faces=faces,  smooth=False, color=(1, 1, 0, 0.5) ,glOptions='translucent', drawEdges=True)
+        m1 = GLMeshItem(vertexes=verts, 
+                        faces=faces,  
+                        smooth=False, 
+                        color=(1, 1, 0, 0.5) ,
+                        glOptions='translucent', 
+                        drawEdges=True, 
+                        edgeColor=(1, 0, 1,1),
+                        shader='balloon',
+                        drawFaces=True,
+                        )
         return m1
         
     def dibujar_punto(self,P:Punto3D=Punto3D(1,1,5)):

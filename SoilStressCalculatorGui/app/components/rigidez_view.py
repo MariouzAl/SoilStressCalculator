@@ -29,3 +29,6 @@ class RigidezView(QVBoxLayout):
     def getValue(self)->tuple:
         return self.__value
         
+    def setValue(self,value)->None:
+        index_of_text = self.cb.findText(value[0])
+        self.cb.setCurrentIndex(index_of_text)

@@ -1,8 +1,7 @@
 import copy
 import numpy as np
-from soil_vertical_stress_increment.models.vertical_stress_increment_result import VerticalStressIncrementResults
 from .calculate_controller import CalculateController
-from components.side_panel import CalculateParams
+from components.CalculateParams import CalculateParams
 
 class ChartController : 
     controller = CalculateController()

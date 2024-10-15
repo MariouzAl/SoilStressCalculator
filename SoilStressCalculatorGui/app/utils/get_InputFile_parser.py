@@ -1,4 +1,4 @@
-from utils.input_parser_reader import JSONInputParserReader
+from utils.input_parser_reader import ExcelInputParserReader, JSONInputParserReader
 from models.input_file_formats import InputFileFormat
 
 def getInputFileParser(file_type :str):
@@ -8,5 +8,5 @@ def getInputFileParser(file_type :str):
         return JSONInputParserReader
     elif(input_type==InputFileFormat.EXCEL):
         print('get Excel pandas input parser') 
-        return JSONInputParserReader
+        return ExcelInputParserReader
     

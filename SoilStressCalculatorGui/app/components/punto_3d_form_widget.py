@@ -1,4 +1,7 @@
-import pandas as pd
+import os
+
+from soil_vertical_stress_increment.punto import Punto2D
+from models.default_input_data import DEFAULT_INPUT_DATA
 from components.CalculateParams import CalculateParams
 from components.Punto3DFormWidgetData import Punto3DFormWidgetData
 from models.input_file_formats import InputFileFormat
@@ -17,6 +20,7 @@ from PyQt6.QtGui import QAction
 
 class Punto3DFormWidget(QGroupBox):
     fileImported : pyqtSignal = pyqtSignal(CalculateParams)
+    newInputData :  pyqtSignal = pyqtSignal(CalculateParams)
     
     def __init__(self):
         super().__init__("Parametros iniciales")
@@ -76,6 +80,7 @@ class Punto3DFormWidget(QGroupBox):
         accion_nuevo = QAction("Nuevo", self)
         accion_importar = QAction("Importar", self)
         accion_importar.triggered.connect(self.open_file_dialog)
+        accion_nuevo.triggered.connect(self.new_input_data_slot)
 
         # Agregar acciones a la barra de herramientas
         toolbar.addAction(accion_nuevo)
@@ -100,10 +105,12 @@ class Punto3DFormWidget(QGroupBox):
             );
             parser = getInputFileParser(file_type_filter);
             content=parser.read(file_path);
-            print(content)
             self.fileImported.emit(content)
-        except:
-            print('No file selected')
-        
+        except Exception as e:
+            print("Error Ocurred : ",e)
+    
+    def new_input_data_slot(self):  
+        self.fileImported.emit(DEFAULT_INPUT_DATA)
+    
     def file_imported_slot(self,content:CalculateParams):
         self.setValue(content.punto_3d_data)

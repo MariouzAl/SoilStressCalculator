@@ -3,3 +3,7 @@
 __pycache__
 dist
 *.egg-info
+*.xlsx
+*.json
+lint_result.txt
+.DS_Store

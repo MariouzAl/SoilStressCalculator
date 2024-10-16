@@ -14,11 +14,26 @@ class ResultsTabBar(QTabBar):
         self.tabCloseRequested.connect(self.handle_close_request_slot)
         self.currentChanged.connect(self.handle_current_changed_slot)
     
-    def addTab(self , item:VerticalStressIncrementResults):
-        label = f"P=[{item.P.x},{item.P.y}, {item.P.z}] q={item.q} {item.method.value[0]}"
+    def addTab(self , item:VerticalStressIncrementResults,label:str):
         self.data.append(item)
         super().addTab(label)
-    
+        
+    def setTabs(self,items:list[VerticalStressIncrementResults]):
+        for item in items:
+            self.addTab(item)
+        
+    def removeAll(self):
+        tab_count =self.count()
+        if tab_count > 0:
+            i=0
+            while True : 
+                self.removeTab(i)
+                i=i+1
+                tab_count =self.count()
+                if tab_count == 0:
+                    break
+            
+        
     
     def handle_close_request_slot(self,index: int):
         self.removeTab(index)

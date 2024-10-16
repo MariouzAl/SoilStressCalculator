@@ -1,6 +1,4 @@
-import os
 
-from soil_vertical_stress_increment.punto import Punto2D
 from models.default_input_data import DEFAULT_INPUT_DATA
 from components.CalculateParams import CalculateParams
 from components.Punto3DFormWidgetData import Punto3DFormWidgetData

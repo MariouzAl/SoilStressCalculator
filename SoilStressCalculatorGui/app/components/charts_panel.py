@@ -1,34 +1,33 @@
-from PyQt6.QtWidgets import QGroupBox, QPushButton, QVBoxLayout,QHBoxLayout
-import numpy as np
-from soil_vertical_stress_increment.models.vertical_stress_increment_result import VerticalStressIncrementResults
-
-from controllers.chart_controller import ChartController
-
+from PyQt6.QtWidgets import QGroupBox, QHBoxLayout
+from soil_vertical_stress_increment.models.vertical_stress_increment_result import (
+    VerticalStressIncrementResults,
+)
 from .superficie_punto_chart import SuperficiePuntoChart
-from .esfuerzos_chart import  EsfuerzosChartContainer
+from .esfuerzos_chart import EsfuerzosChartContainer
 
 
 class ChartsPanel(QGroupBox):
-    chart_controller =ChartController()
     esfuerzos_chart: EsfuerzosChartContainer
+
     def __init__(self):
         super().__init__()
-        layout= QHBoxLayout()
+        layout = QHBoxLayout()
         self.esfuerzos_chart = EsfuerzosChartContainer()
-        layout.addWidget(self.esfuerzos_chart,1)
-        self.superficie_punto_chart=SuperficiePuntoChart()
-        layout.addWidget(self.superficie_punto_chart,1)
+        layout.addWidget(self.esfuerzos_chart, 1)
+        self.superficie_punto_chart = SuperficiePuntoChart()
+        layout.addWidget(self.superficie_punto_chart, 1)
         self.setLayout(layout)
-        
-    def set_data(self, result:VerticalStressIncrementResults):
-        data:list[tuple[float,float]]=self.chart_controller.calc_chart_data(result.input_data,10)
-        data_x:list[float]=[]
-        data_y:list[float]=[]
+
+    def set_data(
+        self, result: VerticalStressIncrementResults, data: list[tuple[float, float]]
+    ):
+        data_x: list[float] = []
+        data_y: list[float] = []
         for x, y in data:
             print(x, y)
             data_x.append(x)
             data_y.append(y)
-        
-        self.esfuerzos_chart.update_data(x=data_y,y=data_x)
-        print('result.input_data.vertices_data',len(result.input_data.vertices_data))
+
+        self.esfuerzos_chart.update_data(x=data_y, y=data_x)
+        print("result.input_data.vertices_data", len(result.input_data.vertices_data))
         self.superficie_punto_chart.set_data(result)

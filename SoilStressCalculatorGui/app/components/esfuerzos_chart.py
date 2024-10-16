@@ -34,7 +34,7 @@ class EsfuerzosTable(QTableWidget):
     def __init__(self)->None:
         super().__init__()
         self.setRowCount(4)
-        columnas=["x","y"]
+        columnas=["z","esfuerzo"]
         self.setColumnCount(len(columnas))
         self.setHorizontalHeaderLabels(columnas)
         self.setObjectName("tableWidget")
@@ -44,8 +44,8 @@ class EsfuerzosTable(QTableWidget):
         self.clearContents()
         self.setRowCount(len(x))
         for index, _ in enumerate(x):
-            self.setItem(index, 0, QTableWidgetItem(str(x[index])))
-            self.setItem(index, 1, QTableWidgetItem(str(y[index])))
+            self.setItem(index, 1, QTableWidgetItem(str(x[index])))
+            self.setItem(index, 0, QTableWidgetItem(str(y[index])))
         
         
 

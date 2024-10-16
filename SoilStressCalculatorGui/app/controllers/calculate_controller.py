@@ -22,5 +22,5 @@ class CalculateController:
         elif(params.punto_3d_data.rigidez==MetodosCalculo.WESTERGAARD.value):
             return Westergaard(q=params.punto_3d_data.q,P=params.punto_3d_data.punto,vertices=params.vertices_data, relacion_poisson=params.punto_3d_data.relacionPoisson)
         else:
-            print('No implementation for Westergaard')
+            raise TypeError(f"Metodo {params.punto_3d_data.rigidez} no esta disponible")
             

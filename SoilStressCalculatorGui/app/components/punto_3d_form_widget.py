@@ -18,7 +18,6 @@ from PyQt6.QtGui import QAction
 
 class Punto3DFormWidget(QGroupBox):
     fileImported : pyqtSignal = pyqtSignal(CalculateParams)
-    newInputData :  pyqtSignal = pyqtSignal(CalculateParams)
     
     def __init__(self):
         super().__init__("Parametros iniciales")

@@ -1,6 +1,6 @@
 import numpy as np
 from soil_vertical_stress_increment.models.vertical_stress_increment_result import (
-    VerticalStressIncrementResults,
+    VerticalStressIncrementResults
 )
 from utils import ear_clipping
 from pyqtgraph.opengl import (
@@ -23,7 +23,8 @@ class SuperficiePuntoChart(GLViewWidget):
         self.dibujar_cuadriculas()
         self.dibujar_superficies()
         self.dibujar_punto()
-
+        self.setCameraPosition(distance=15, elevation=16, azimuth=0)
+    
     def dibujar_superficies(
         self,
         vertices: list[Punto2D] = [
@@ -33,11 +34,42 @@ class SuperficiePuntoChart(GLViewWidget):
             Punto2D(1.0, 2.0),
         ],
         depth: float = 0,
+        aristas:list[tuple[Punto2D, Punto2D]]=[]
     ):
-        depths = np.linspace(0, depth, 50)
-        for iteration_depth in depths:
-            face = self._draw_prism_upper_face(vertices, iteration_depth)
-            self.addItem(face)
+        face = self._draw_prism_upper_face(vertices, 0)
+        self.addItem(face)
+        face = self._draw_prism_upper_face(vertices, depth)
+        self.addItem(face)
+        self._draw_projection(aristas,depth)
+
+    def _draw_projection(self,aristas: list[tuple[Punto2D, Punto2D]],depth:float):
+        for arista in aristas:
+            punto_inicial=arista[0]
+            punto_final=arista[1]
+            verts = [
+                [punto_inicial.x,punto_inicial.y,0],
+                [punto_final.x,punto_final.y,0],
+                [punto_inicial.x,punto_inicial.y,depth],
+                [punto_final.x,punto_final.y,depth],
+                ]
+            faces = [
+                [0,1,2],
+                [2,3,1]
+            ]
+            print ("VERTS")
+            print (verts)
+            m1 = GLMeshItem(
+            vertexes=verts,
+            faces=faces,
+            smooth=False,
+            color=(1, 1, 0, 0.2),
+            drawEdges=True,
+            edgeColor=(1, 0, 1, 1),
+            drawFaces=True,
+            shader="edgeHilight",
+            glOptions="additive",
+            )
+            self.addItem(m1)
 
     def _draw_prism_upper_face(self, vertices, depth):
         verts = self.__get_vertex_list(vertices, depth)
@@ -100,12 +132,28 @@ class SuperficiePuntoChart(GLViewWidget):
         print("vertices class variable", len(data.vertices))
         vertices = data.input_data.vertices_data
         print("vertices", len(vertices))
-        P = data.P
+        P = data.P;
+        aristas = self._calcAristas(vertices)
+        print(aristas)
         self.clear()
         self.dibujar_cuadriculas()
-        self.dibujar_superficies(vertices, -P.z)
+        self.dibujar_superficies(vertices, -P.z,aristas)
         self.dibujar_punto(P)
 
+    def _calcAristas(self,vertices:list[Punto2D])->list[tuple[Punto2D,Punto2D]]:
+        aristas= []
+        verticesLen= len(vertices)
+        rango =range(0,verticesLen)
+        for i in rango:
+            if(i==verticesLen-1):
+                arista = (vertices[i],vertices[0])
+                aristas.append(arista)
+                break
+            arista =(vertices[i],vertices[i+1])
+            aristas.append(arista)
+        return aristas
+        
+    
     def __map_vertexez_to_indexes(self, source_vertex: list[list[float, float, float]]):
         def mapper(
             item: tuple[

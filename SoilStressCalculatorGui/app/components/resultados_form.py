@@ -32,7 +32,7 @@ class ResultadosForm(QVBoxLayout):
     def on_export_clicked(self,parent:Any, type:int):
         def on_clicked_slot():
             file_filter = f"{InputFileFormat.EXCEL.value}"
-            dialog = QFileDialog(parent, "Guardar archivo", ".", file_filter)
+            dialog = QFileDialog(parent, "Guardar archivo" if type==self.SAVE_CURRENT else "Guardar archivo multiple", ".", file_filter)
             dialog.setFileMode(QFileDialog.FileMode.AnyFile)
             dialog.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
             if dialog.exec():

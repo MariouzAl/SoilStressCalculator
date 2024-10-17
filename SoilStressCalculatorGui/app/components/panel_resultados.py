@@ -109,3 +109,6 @@ class PanelResultados(QGroupBox):
 
     def on_save_as_slot(self, file: tuple[str, int]) -> None:
         self.on_save_as.emit(file)
+    
+    def rename_result(self,rename_item:tuple[int,str]):
+        self.tab_bar.renameTab(rename_item)

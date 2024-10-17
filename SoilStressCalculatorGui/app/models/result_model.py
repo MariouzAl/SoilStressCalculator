@@ -8,6 +8,7 @@ class ResultsModel(QObject):
     current_index:int;
     results : list[ResultValueObject]
     on_data_changed:pyqtSignal=pyqtSignal(tuple);
+    on_renamed:pyqtSignal=pyqtSignal(tuple);
     on_result_added:pyqtSignal=pyqtSignal(ResultValueObject);
     on_selected_item_changed:pyqtSignal=pyqtSignal(ResultValueObject);
     
@@ -39,7 +40,9 @@ class ResultsModel(QObject):
             indice_seleccionado-=1
         return indice_seleccionado
         
-            
+    def rename(self,index:int,title:str):
+         self.results[index].title=title
+         self.on_renamed.emit((index,title))
         
     def clearData(self):
         self.results = []

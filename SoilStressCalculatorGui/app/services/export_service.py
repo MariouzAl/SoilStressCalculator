@@ -2,6 +2,7 @@ from openpyxl import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from soil_vertical_stress_increment.models.methods_enum import MetodosCalculo
 from soil_vertical_stress_increment.models.vertical_stress_increment_result import BoussinesqIterationResult, FrolichX2IterationResult, FrolichX4IterationResult, VerticalStressIncrementResults, WestergaardIterationResult
+from services.datagrid_parser import StressIncrementResultsToDataGridParser
 from models.result_value_object import ResultValueObject
 
 class ExportService : 
@@ -24,15 +25,48 @@ class ExportService :
         datos_entrada=result.tabla_resultados.input_data.punto_3d_data
         vertices_entrada=result.tabla_resultados.input_data.vertices_data
         resultados  = result.tabla_resultados
+        esfuerzos = result.tabla_esfuerzos
         last_row_position = self._draw_input_data(spreadsheet, datos_entrada, vertices_entrada);
-        self._dibujar_tabla_resultados(spreadsheet,last_row_position,resultados)
+        last_row_position+=2
+        last_row_position=self._dibujar_tabla_resultados(spreadsheet,last_row_position,resultados)
+        last_row_position+=2
+        last_row_position=self._dibujar_tabla_esfuerzos(spreadsheet,last_row_position,esfuerzos)
+    
+    def _dibujar_tabla_esfuerzos(self,spreadsheet:Worksheet, start_row_position:int,resultados:list[tuple[float, float]]):
+        spreadsheet.cell(start_row_position,1,"ESFUERZOS")
+        start_row_position+=1;
+        spreadsheet.cell(start_row_position,1,"Z")
+        spreadsheet.cell(start_row_position,2,"ESFUERZO")
+        start_row_position+=1;
+        row_pos=0;
+        col_pos=0;
+        for row_index ,rows in enumerate(resultados):
+            for col_index, cell_data in enumerate(rows):
+                row_pos=row_index+start_row_position;
+                col_pos=col_index+1
+                spreadsheet.cell(row_pos,col_pos,cell_data)
+        
+        return row_pos
         
     def _dibujar_tabla_resultados(self,spreadsheet:Worksheet, start_row_position:int,resultados:VerticalStressIncrementResults):
         iterations =resultados.get_iteration_results();
-        renderer=self._get_row_render_function(resultados.method);
+        esfuerzo = resultados.get_total_result()
+        columns=StressIncrementResultsToDataGridParser.getColumns(resultados.method);
+        data_grid=StressIncrementResultsToDataGridParser.getDataGrid(resultados.method,iterations)
+        matrix= [columns]+data_grid
+        row_pos=0
+        col_pos=0
+        for row_index ,rows in enumerate(matrix):
+            for col_index, cell_data in enumerate(rows):
+                row_pos=row_index+start_row_position;
+                col_pos=col_index+1
+                spreadsheet.cell(row_pos,col_pos,cell_data)
         
-        for index , iteration in enumerate(iterations):
-            iteration
+        row_pos+=1
+        lower_right_corner =len(matrix[0])
+        spreadsheet.cell(row_pos,lower_right_corner,esfuerzo)
+        spreadsheet.cell(row_pos,lower_right_corner-1,'Σ=')
+        return row_pos
             
     
     def _draw_input_data(self, spreadsheet:Worksheet, datos_entrada, vertices_entrada):
@@ -51,22 +85,4 @@ class ExportService :
             spreadsheet.cell(row_position,2,vertice.y)
         return row_position
         
-    def _get_row_render_function(method:MetodosCalculo):
-        def Boussinesq(iteration:BoussinesqIterationResult,row_position:int):
-            pass
-        def Frolich_x2(iteration:FrolichX2IterationResult,row_position:int):
-            pass
-        def Frolich_x4(iteration:FrolichX4IterationResult,row_position:int):
-            pass
-        def Westergaard(iteration:WestergaardIterationResult,row_position:int):
-            pass
-        
-        if   method ==  MetodosCalculo.BOUSSINESQ_X3:
-            return Boussinesq
-        elif method==MetodosCalculo.FROLICH_X2:
-            return Frolich_x2
-        elif method==MetodosCalculo.FROLICH_X4:
-            return Frolich_x4
-        elif method==MetodosCalculo.WESTERGAARD:
-            return Westergaard
-        
+   

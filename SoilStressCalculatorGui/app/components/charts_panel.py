@@ -21,13 +21,19 @@ class ChartsPanel(QGroupBox):
     def set_data(
         self, result: VerticalStressIncrementResults, data: list[tuple[float, float]]
     ):
-        data_x: list[float] = []
-        data_y: list[float] = []
-        for x, y in data:
-            print(x, y)
-            data_x.append(x)
-            data_y.append(y)
+        if result is not None:
+            data_x: list[float] = []
+            data_y: list[float] = []
+            for x, y in data:
+                print(x, y)
+                data_x.append(x)
+                data_y.append(y)
 
-        self.esfuerzos_chart.update_data(x=data_y, y=data_x)
-        print("result.input_data.vertices_data", len(result.input_data.vertices_data))
-        self.superficie_punto_chart.set_data(result)
+            print(
+                "result.input_data.vertices_data", len(result.input_data.vertices_data)
+            )
+            self.esfuerzos_chart.update_data(x=data_y, y=data_x)
+            self.superficie_punto_chart.set_data(result)
+        else:
+            self.esfuerzos_chart.clear()
+            self.superficie_punto_chart.clear()

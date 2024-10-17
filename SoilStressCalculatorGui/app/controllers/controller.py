@@ -1,7 +1,7 @@
 import copy
 import numpy as np
 
-from controllers.export_controller import ExportService
+from services.export_service import ExportService
 from models.result_value_object import ResultValueObject
 from models.result_model import ResultsModel
 from .calculate_controller import CalculateController
@@ -22,7 +22,8 @@ class Controller :
         fin =data.punto_3d_data.punto.z;
         rango=np.linspace(inicio,fin,steps)
         chart_values = list(map(self.__calculate_increment_for_range,rango))
-        result_vo= ResultValueObject(table_result,chart_values)
+        title= f"P=({table_result.P.x},{table_result.P.y}, {table_result.P.z}) q={table_result.q} {table_result.method.value[0]}"
+        result_vo= ResultValueObject(table_result,chart_values,title)
         self.model.addResult(result_vo)
         
         

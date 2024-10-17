@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QTabBar
 from soil_vertical_stress_increment.models.vertical_stress_increment_result import VerticalStressIncrementResults
 
 class ResultsTabBar(QTabBar):
+    on_deleted_tab:pyqtSignal= pyqtSignal(int)
     currentTabChanged:pyqtSignal= pyqtSignal(tuple)
     data:list[VerticalStressIncrementResults] =[]
     
@@ -36,6 +37,7 @@ class ResultsTabBar(QTabBar):
         
     
     def handle_close_request_slot(self,index: int):
+        self.on_deleted_tab.emit(index)
         self.removeTab(index)
         self.data.remove(self.data[index])
         

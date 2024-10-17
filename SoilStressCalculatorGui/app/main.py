@@ -40,6 +40,7 @@ class MainWindow(QMainWindow):
         widget.setLayout(layout)
         self.setCentralWidget(widget)
         self.panel_resultados.tab_bar.currentTabChanged.connect(self.on_result_changed)
+        self.panel_resultados.tab_bar.on_deleted_tab.connect(self.on_deleted_tab_slot)
         self.results_model.on_result_added.connect(self.on_result_model_changed_slot)
         self.results_model.on_selected_item_changed.connect(self.on_selected_item_changed_slot)
 
@@ -53,9 +54,13 @@ class MainWindow(QMainWindow):
     def on_result_changed(self,data:tuple[int,VerticalStressIncrementResults]):
         index=data[0]
         self.results_model.setCurrentIndex(index)
+    
+    def on_deleted_tab_slot(self,index:int):
+        self.results_model.removeResult(index)
         
     def on_selected_item_changed_slot (self,result:ResultValueObject):
         self.chart_panel.set_data(result.tabla_resultados,result.tabla_esfuerzos)
+        self.panel_resultados.draw_current_data(result.tabla_resultados)
         
     def on_export_as_slot(self, file:tuple[str,int]):
         path, operation = file

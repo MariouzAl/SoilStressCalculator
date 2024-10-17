@@ -13,7 +13,8 @@ class Poligono:
     def _calcAristas(self,vertices:list[Punto2D])->list[Arista]:
         aristas= []
         verticesLen= len(vertices)
-        for i in range(0,verticesLen):
+        rango =range(0,verticesLen-1)
+        for i in rango:
             if(i==verticesLen-1):
                 arista = Arista(vertices[i],vertices[0])
                 aristas.append(AristaWrapper(arista,self.__Zp))
